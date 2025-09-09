@@ -18,7 +18,6 @@
 			</a>
 		</div>
 	</header>
-
 	<main>
 		<div class="confirm__content">
 			<div class="confirm__heading">
