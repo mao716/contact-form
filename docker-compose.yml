@@ -1,6 +1,7 @@
 services:
   nginx:
-    image: nginx:1.21.1
+    # 1.21.1 は古くて arm64 非対応のことがある → multi-arch な安定タグへ
+    image: nginx:stable-alpine
     ports:
       - "80:80"
     volumes:
@@ -12,11 +13,11 @@ services:
   php:
     build: ./docker/php
     volumes:
-      - ./src:/var/www/
+        - ./src:/var/www/
     user: "${UID}:${GID}"
 
   mysql:
-    image: mysql:8.0.26
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: laravel_db
@@ -29,7 +30,7 @@ services:
       - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin:latest
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=mysql
@@ -38,4 +39,4 @@ services:
     depends_on:
       - mysql
     ports:
-      - 8080:80
+      - "8080:80"
